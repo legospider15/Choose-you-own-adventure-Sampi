@@ -192,7 +192,7 @@ until running:
             say("You try to take the flamethrower, but it won't budge.")
             if "blade" in inventory:
                 say("You you cut it out with your morgule blade.")
-                say("the blade disintigrates. You now have a flamethrower.")
+                say("the blade disintegrates. You now have a flamethrower.")
                 inventory.add("flamethrower")
                 inventory.remove("blade")
             else:
