@@ -167,9 +167,9 @@ until running:
                 say("Hello " + name + ".")
                 say("Give me the I... am Steve!, and i will give you knowledge.")
                 say("You give the old dude your I... am Steve!. He tells you:")
-                say("This bunker was suppoesed to be for if there was a numcler strike.")
+                say("This bunker was suppoesed to be for if there was a nuclear strike.")
                 say("There never was. I was left here to take care of it, and they have")
-                say("Never came back.")
+                say("never came back.")
                 inventory.remove("steve")
             else:
                 say("The old dude says: You do not have what I want.")
