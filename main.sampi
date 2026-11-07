@@ -1,0 +1,219 @@
+func get_input options:
+    until false:
+        set ansr to ask("[" + options.join("/") + "] ")
+        if ansr in options:
+            return ansr  
+        end
+        say("That is not an option.")
+    end
+end
+    
+# set up the player
+glue name to ask("What is your name? ")
+set location to "start"
+set inventory to []
+say()
+
+set open to false
+set running to false
+
+until running:
+    if location = "start":
+        say("Do you go to the")
+        say("1. North")
+        say("2. South")
+        set input to get_input(["1", "2"])
+        say()
+
+        if input = "1":
+            set location to "North"
+        else:
+            set location to "South"
+        end
+    
+    else if location = "North":
+        say("To the North there is a house")
+        say("Do you")
+        say("1. Go into the house")
+        say("2. Look around the house")
+        say("3. Go back")
+        set input to get_input(["1", "2", "3"])
+        say()
+
+        if input = "1":
+            set location to "house"
+        else if input = "2":
+            if "sack" in inventory:
+                say("You find nothing")
+                say()
+            else:
+                say("You look around the house.")
+                say("You find a sack with:")
+                say("Caned food")
+                say("Flint and steel")
+                say("I... am Steve!")
+                say("A morgule blade")
+                say()
+                set inventory to inventory + ["flint", "steve", "blade", "food", "sack"]
+            end
+        else:
+            set location to "start"
+        end
+
+    else if location = "South":
+        say("To the South there is a bunker")
+        say("Do you")
+        say("1. Enter the bunker")
+        say("2. Go back")
+        set input to get_input(["1", "2"])
+        say()
+        
+        if input = "1":
+            set location to "bunker"
+        else:
+            set location to "start"
+        end
+    
+    else if location = "house":
+        say("You enter the house. Do you")
+        say("1. Inspect the drawers")
+        say("2. Go upsairs")
+        say("3. Go back")
+        set input to get_input(["1", "2", "3"])
+        say()
+        
+        if input = "1":
+            if "key" in inventory:
+                say("You find nothing.")
+                say()
+            else:
+                say("You check the drawers and find a key.")
+                say("You pocket it.")
+                say()
+                inventory.add("key")
+                say()
+            end
+        else if input = "2":
+            say("you walk upsairs. You find nothing and go back.")
+            say()
+        else:
+            set location to "North"
+        end
+
+    else if location = "bunker":
+        say("You walk to the bunker.")
+        say("Do you")
+        say("1. Try to open the door")
+        say("2. Read the sign")
+        say("3. Go back")
+        set input to get_input(["1", "2", "3"])
+        say()
+    
+        if input = "1":
+            if "key" in inventory:
+                say("You put the key in the lock.")
+                say("The Door opens. You enter.")
+                set location to "inside"
+                inventory.remove("key")
+                set open to true
+            else if open = true:
+                say("You walk into the bunker.")
+                set location to "inside"
+            else:
+                say("The door won't budge.")
+            end
+        else if input = "2":
+            say("You read the sign. it says")
+            say()
+            say("☢ WARNING ☢")
+            say("NUCLEAR FALLOUT BUNKER")
+            say("DO NOT ENTER")
+        else:
+            set location to "South"
+        end
+    
+    else if location = "inside":
+        say("Inside the bunker, there are signs")
+        say("Do you follow the sign that says")
+        say("1. lab")
+        say("2. weapons")
+        say("3. Barracks")
+        say("4. Outside")
+        set input to get_input(["1", "2", "3", "4"])
+        say()
+        
+        if input = "1":
+            set location to "lab"
+        else if input = "2":
+            set location to "weapons"
+        else if input = "3":
+            set location to "barracks"
+        else:
+            set location to "bunker"
+        end
+    
+    else if location = "lab":
+        say("You walk into the lab, and find an old dude.")
+        say("Do you")
+        say("1. Talk to the old dude")
+        say("2. Look around.")
+        say("3. Go back.")
+        set input to get_input(["1", "2", "3"])
+        say()
+        
+        if input = "1":
+            if "steve" in inventory:
+                say("The old dude says:")
+                say("Hello " + name + ".")
+                say("Give me the I... am Steve!, and i will give you knowledge.")
+                say("You give the old dude your I... am Steve!. He tells you:")
+                say("This bunker was suppoesed to be for if there was a numcler strike.")
+                say("There never was. I was left here to take care of it, and they have")
+                say("Never came back.")
+                inventory.remove("steve")
+            else:
+                say("The old dude says: You do not have what I want.")
+            end
+        else if input = "2":
+            say("You find nothing.")
+        else if input = "3":
+            set location to "inside"
+        end
+    
+    else if location = "weapons":
+        say("You walk into a room full or weapons.")
+        say("Do you")
+        say("1. Try to get a flamethrower.")
+        say("2. Go back.")
+        set input to get_input(["1", "2"])
+        say()
+        
+        if input = "1":
+            say("You try to take the flamethrower, but it won't budge.")
+            if "blade" in inventory:
+                say("You you cut it out with your morgule blade.")
+                say("the blade disintigrates. You now have a flamethrower.")
+                inventory.add("flamethrower")
+                inventory.remove("blade")
+            else:
+                say("You do not have the tools to remove it.")
+            end
+        else if input = "2":
+            set location to "inside"
+        end
+    else if location = "barracks":
+        say("You walk into the barracks.")
+        say("You find a creature mutated by radiation.")
+        if "flamethrower" in inventory:
+            say("You attack it with you flamethrower")
+            say("It dies.")
+            say()
+            say("YOU WIN!!!")
+        else:
+            say("You punch it. It bites you.")
+            say("You die of radiation poisoning.")
+            say("YOU LOSE :(")
+        end
+        set running to true
+    end
+end
