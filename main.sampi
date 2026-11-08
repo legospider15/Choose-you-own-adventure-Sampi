@@ -8,7 +8,7 @@ func get_input options:
     end
 end
     
-# set up the player
+// set up the player
 glue name to ask("What is your name? ")
 set location to "start"
 set inventory to []
